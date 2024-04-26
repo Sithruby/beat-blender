@@ -41,7 +41,7 @@ export default function SignUp() {
         placeholder="Password"
         value={password}
         onChangeText={setPassword}
-        secureTextEntry
+       
       />
       <TouchableOpacity style={styles.button} >
                     <Text style={styles.buttonText}>Sign Up</Text>
@@ -88,7 +88,7 @@ logo: {
     
   },
 button:{
-  backgroundColor:'rgba(0,0,0,0.2)',
+  backgroundColor:'rgba(75,0,130,0.6)',
   padding:10,
   borderRadius:15,
   borderColor:'rgb(0,0,0)',
@@ -114,7 +114,7 @@ buttonText:{
     width:'40%',
    padding: 10,
     marginBottom: 10,
-    backgroundColor:'rgba(0,0,0,0.3)',
+    backgroundColor:'rgba(0,0,0,0.1)',
   },
 });
 

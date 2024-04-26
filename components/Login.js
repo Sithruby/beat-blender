@@ -53,7 +53,6 @@ const styles = StyleSheet.create({
   },
   logoContainer: {
     padding:20,
-    
     justifyContent: 'top',
     alignItems: 'left',
    
