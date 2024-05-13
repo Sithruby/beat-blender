@@ -2,11 +2,40 @@ import * as React from 'react';
 import  { useState } from 'react';
 import {  TextInput, View, Text, StyleSheet,TouchableOpacity,Image } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
+import Client from '../api/Client';
+
 const logoImg=require("../assets/4.png");
 export default function SignUp() {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  const signUp = async () => {
+    // Gather input field values
+    const userData = {
+      name: username,
+      email: email,
+      password: password
+    };
+
+    try {
+      console.log(userData);
+      const res = await Client.post('/users', userData);
+
+      if (res.data.success) {
+        // Successful signup
+        alert('Signup successful! You can now log in.');
+      } else {
+        // Failed signup
+        alert('Signup failed. Please check your information and try again.');
+      }
+      console.log(res.data);
+    } catch (error) {
+      console.error("Error signing up:", error);
+      alert(error);
+    }
+  };
+
   return (
     
   
@@ -43,7 +72,7 @@ export default function SignUp() {
         onChangeText={setPassword}
        
       />
-      <TouchableOpacity style={styles.button} >
+      <TouchableOpacity style={styles.button} onPress={signUp}>
                     <Text style={styles.buttonText}>Sign Up</Text>
       </TouchableOpacity>
       
