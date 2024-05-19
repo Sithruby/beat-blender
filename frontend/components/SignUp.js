@@ -1,11 +1,14 @@
-import * as React from 'react';
-import  { useState } from 'react';
-import {  TextInput, View, Text, StyleSheet,TouchableOpacity,Image } from 'react-native';
+import React, { useState } from 'react';
+import { TextInput, View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import Client from '../api/Client';
+import { useNavigation } from '@react-navigation/native';
 
-const logoImg=require("../assets/4.png");
+const logoImg = require("../assets/4.png");
+
 export default function SignUp() {
+  const navigation = useNavigation(); // Hook to access navigation object
+
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -25,6 +28,8 @@ export default function SignUp() {
       if (res.data.success) {
         // Successful signup
         alert('Signup successful! You can now log in.');
+        // Navigate to login screen
+        navigation.navigate('Login');
       } else {
         // Failed signup
         alert('Signup failed. Please check your information and try again.');
@@ -37,19 +42,17 @@ export default function SignUp() {
   };
 
   return (
-    
-  
     <View style={styles.container}>
       <View style={styles.logoContainer}>
-        <Image  style={styles.logo}source={logoImg}/>
+        <Image style={styles.logo} source={logoImg} />
       </View>
-    
+
       <LinearGradient
         // Background Linear Gradient
         colors={['rgba(0,0,0,0.9)', 'transparent']}
         style={styles.background}
       />
-        <Text style={styles.headerText}>Sign Up</Text>
+      <Text style={styles.headerText}>Sign Up</Text>
       <TextInput
         style={styles.input}
         placeholder="Username"
@@ -70,22 +73,21 @@ export default function SignUp() {
         placeholder="Password"
         value={password}
         onChangeText={setPassword}
-       
       />
       <TouchableOpacity style={styles.button} onPress={signUp}>
-                    <Text style={styles.buttonText}>Sign Up</Text>
+        <Text style={styles.buttonText}>Sign Up</Text>
       </TouchableOpacity>
-      
-     
+
       <TouchableOpacity>
-          <Text style={styles.buttonText}> already have an account?Login</Text>
+        <Text style={styles.buttonText}>Already have an account? Login</Text>
       </TouchableOpacity>
-     
-        
     </View>
-  
   );
 }
+
+// Styles...
+
+
 
 const styles = StyleSheet.create({
   container: {
