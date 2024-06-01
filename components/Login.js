@@ -2,19 +2,19 @@ import * as React from 'react';
 import  { useState } from 'react';
 import {  TextInput, View, Text, StyleSheet,TouchableOpacity,Image } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
+import { SafeAreaView } from 'react-native-safe-area-context';
 const logoImg=require("../assets/4.png");
 export default function Login() {
  
   return (
     
-  
-    <View style={styles.container}>
+    <SafeAreaView  style={styles.container}>
+   
       <View style={styles.logoContainer}>
         <Image  style={styles.logo}source={logoImg}/>
       </View>
     
       <LinearGradient
-        // Background Linear Gradient
         colors={['rgba(0,0,0,0.9)', 'transparent']}
         style={styles.background}
       />
@@ -22,38 +22,32 @@ export default function Login() {
       <TextInput
         style={styles.input}
         placeholder="Username"
-        value={username}
-        onChangeText={setUsername}
         autoCapitalize="none"
       />
      
       <TextInput
         style={styles.input}
         placeholder="Password"
-        value={password}
-        onChangeText={setPassword}
         secureTextEntry
       />
       <TouchableOpacity style={styles.button} >
                     <Text style={styles.buttonText}>Login</Text>
     </TouchableOpacity>
         
-    </View>
-  
+   
+  </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex:1,
-    width:500,
-    alignItems: 'center',
+   alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: 'rgb(165,55,253)',
   },
   logoContainer: {
     padding:20,
-    
     justifyContent: 'top',
     alignItems: 'left',
    
