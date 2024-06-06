@@ -8,7 +8,7 @@ export default function WelcomeScreen(){
     const navigation=useNavigation();
     return(
         <SafeAreaView  style={styles.container}>
-              <LinearGradient colors={['rgba(0,0,0,0.9)', 'transparent']} style={styles.background} />
+              <LinearGradient colors={['rgb(165,55,253)', 'transparent']} style={styles.background} />
             <View>
                 <View style={styles.align}>
                 <Image  style={styles.logo}source={logoImg}/>
@@ -21,8 +21,8 @@ export default function WelcomeScreen(){
 
 
                     
-                    <TouchableOpacity  style={styles.button1} onPress={()=>navigation.navigate('SignUp')}>
-                    <Text style={styles.signuptext}>Let's Get Started</Text> 
+                    <TouchableOpacity  style={styles.button} onPress={()=>navigation.navigate('SignUp')}>
+                    <Text style={styles.buttonText}>Let's Get Started</Text> 
                     </TouchableOpacity>
                   
                  </View>
@@ -43,10 +43,11 @@ const styles=StyleSheet.create(
             
           },
           container: {
-            flex:1,
+            flex: 1,
             alignItems: 'center',
             justifyContent: 'center',
-            backgroundColor: 'rgb(165,55,253)',
+            color:'#ccc',
+            backgroundColor: 'rgba(0,0,0,0.9)',
           },
         align:{
             alignItems:'center',
@@ -60,16 +61,22 @@ const styles=StyleSheet.create(
            fontSize:27,
            },
         
-        button1:{
+        button:{
             width:'50%',
             padding:10,
             borderRadius:40,
              borderWidth: 1,
-            backgroundColor:'rgba(0,0,255,0.1)',
             alignItems: 'center',
             marginLeft:'25%',
+            backgroundColor: 'rgb(123, 31, 162)',
+            borderColor: 'rgb(0,0,0)',
+          
             
         },
+        buttonText:{
+            fontFamily:'Cochin',
+            color: '#fff',
+          },
         logo: {
           height: 300,
           width: 300,
