@@ -3,9 +3,33 @@ import  { useState } from 'react';
 import {  TextInput, View, Text, StyleSheet,TouchableOpacity,Image } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { auth } from '../firebase.config';
+import { useNavigation } from '@react-navigation/native';
+import { signInWithEmailAndPassword } from 'firebase/auth';
 const logoImg=require("../assets/4.png");
+
 export default function Login() {
- 
+ const navigation=useNavigation()
+ const[email,setEmail]=useState('');
+ const[password,setPassword]=useState('');
+
+ loginUser=async(email,password)=>{
+  try{
+    await signInWithEmailAndPassword(auth,email,password)
+   // console.log(email);
+    alert('login success')
+    setEmail('');
+    setPassword('');
+    navigation.navigate('Home')
+  }
+  catch(error){
+    if(error.code === 'auth/invalid-credential')
+      {
+        alert('Invalid email or password')
+      }
+   
+  }
+ }
   return (
     
     <SafeAreaView  style={styles.container}>
@@ -15,84 +39,97 @@ export default function Login() {
       </View>
     
       <LinearGradient
-        colors={['rgba(0,0,0,0.9)', 'transparent']}
+        colors={['rgb(165,55,253)', 'transparent']}
         style={styles.background}
       />
-        <Text style={styles.headerText}>Sign Up</Text>
+        <Text style={styles.headerText}>Log In</Text>
       <TextInput
         style={styles.input}
-        placeholder="Username"
+        value={email}
+        placeholder="email"
         autoCapitalize="none"
+        onChangeText={(email)=>setEmail(email)}
+        placeholderTextColor="#fff"
       />
      
       <TextInput
         style={styles.input}
         placeholder="Password"
-        secureTextEntry
+        value={password}
+        autoCorrect={false}
+        autoCapitalize="none"
+        secureTextEntry={true}
+        onChangeText={(password)=>setPassword(password)}
+        placeholderTextColor="#fff"
       />
-      <TouchableOpacity style={styles.button} >
+      <TouchableOpacity style={styles.button} onPress={()=>loginUser(email,password)}>
                     <Text style={styles.buttonText}>Login</Text>
     </TouchableOpacity>
         
-   
+    <TouchableOpacity onPress={()=>navigation.navigate('SignUp')}>
+                    <Text style={styles.buttonText}>Don't have an account?Register</Text>
+    </TouchableOpacity>
+        
   </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex:1,
-   alignItems: 'center',
+    flex: 1,
+    alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'rgb(165,55,253)',
+    backgroundColor: 'rgba(0,0,0,0.9)',
   },
   logoContainer: {
-    padding:20,
-    justifyContent: 'top',
-    alignItems: 'left',
-   
-},
-logo: {
-  height: 90,
-  width: 90,
-    borderRadius:70,
-},
-
+    padding: 20,
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
+  },
+  logo: {
+    height: 90,
+    width: 90,
+    borderRadius: 70,
+  },
   background: {
     position: 'absolute',
     left: 0,
     right: 0,
     top: 0,
     height: 300,
+  },
+  button: {
+    backgroundColor: 'rgb(123, 31, 162)',
+    padding: 10,
+    borderRadius: 15,
+    borderColor: 'rgb(0,0,0)',
+    borderWidth: 1,
+    paddingHorizontal:30,
     
   },
-button:{
-  backgroundColor:'rgba(0,0,0,0.2)',
-  padding:10,
-  borderRadius:15,
-  borderColor:'rgb(0,0,0)',
-   borderWidth: 1,
-},
-buttonText:{
-  fontFamily:'Cochin',
-},
+  buttonText: {
+    fontFamily: 'Cochin',
+    color: '#fff', 
+  },
   text: {
     backgroundColor: 'transparent',
     fontSize: 15,
     color: '#fff',
   },
   headerText: {
-   
+    color: '#fff',
     fontSize: 24,
-    fontWeight: 'bolda',
+    fontWeight: 'bold',
     marginBottom: 20,
   },
   input: {
-   
-    borderRadius:15,
-    width:'40%',
-   padding: 10,
+    borderRadius: 15,
+    width: 250,
+    padding: 10,
     marginBottom: 10,
-    backgroundColor:'rgba(0,0,0,0.3)',
+    paddingHorizontal: 10,
+    paddingRight: 30,
+    backgroundColor: 'rgba(255,255,255,0.2)', 
+    color:'#ccc'
   },
 });
