@@ -44,52 +44,53 @@ def find_loudest_section(audio, window_size_ms):
             loudest_section = segment
 
     return loudest_section
+def predict_genre(audio_stream):
+    # Load the audio file
+    # audio = AudioSegment.from_file('end of the begining.mp3')
+    audio = AudioSegment.from_file(audio_stream)
 
-# Load the audio file
-# audio = AudioSegment.from_file('end of the begining.mp3')
-audio = AudioSegment.from_file('Face to Face.mp3')
+    # Define the window size (e.g., 30 seconds)
+    window_size_ms = 30000
 
-# Define the window size (e.g., 30 seconds)
-window_size_ms = 30000
+    # Find the loudest section
+    loudest_section = find_loudest_section(audio, window_size_ms)
 
-# Find the loudest section
-loudest_section = find_loudest_section(audio, window_size_ms)
+    # Ensure the loudest section is not None before proceeding
+    if loudest_section:
+        # Reduce the sample rate of the loudest section
+        new_sample_rate = 22050  # Define the new sample rate (e.g., 22050 Hz)
+        loudest_section = loudest_section.set_frame_rate(new_sample_rate)
 
-# Ensure the loudest section is not None before proceeding
-if loudest_section:
-    # Reduce the sample rate of the loudest section
-    new_sample_rate = 22050  # Define the new sample rate (e.g., 22050 Hz)
-    loudest_section = loudest_section.set_frame_rate(new_sample_rate)
+        # Reduce the bitrate of the loudest section to 128 kbps
+        loudest_section = loudest_section.set_frame_rate(44100).set_channels(2).set_sample_width(2)
+        loudest_section = loudest_section.set_frame_rate(44100).set_channels(2).set_sample_width(2)
 
-    # Reduce the bitrate of the loudest section to 128 kbps
-    loudest_section = loudest_section.set_frame_rate(44100).set_channels(2).set_sample_width(2)
-    loudest_section = loudest_section.set_frame_rate(44100).set_channels(2).set_sample_width(2)
+        # Save the processed loudest section as an audio file
+        with tempfile.NamedTemporaryFile(suffix=".mp3", delete=False) as temp_file:
+            temp_filename = 'optimized-audio.mp3'
+            loudest_section.export(temp_filename, format='mp3')
 
-    # Save the processed loudest section as an audio file
-    with tempfile.NamedTemporaryFile(suffix=".mp3", delete=False) as temp_file:
-        temp_filename = 'optimized-audio.mp3'
-        loudest_section.export(temp_filename, format='mp3')
+        # Classify the loudest section of the audio file
+        output = classify_audio(temp_filename)
 
-    # Classify the loudest section of the audio file
-    output = classify_audio(temp_filename)
+        # Print the output genres and their scores
+        if output:
+            print("Predicted Genres and Scores:")
+            for genre, score in output.items():
+                print("Genre: {genre}, Score: {score}")
+            stop = timeit.default_timer()
+            print('Time: ', stop - start)
+            return output
+            
+        else:
+            print("No prediction available.")
 
-    # Print the output genres and their scores
-    if output:
-        print("Predicted Genres and Scores:")
-        for genre, score in output.items():
-            print(f"Genre: {genre}, Score: {score}")
+        # Delete the temporary file
+        # import os
+        # os.remove(temp_filename)
 
-        stop = timeit.default_timer()
-        print('Time: ', stop - start)
     else:
-        print("No prediction available.")
-
-    # Delete the temporary file
-    # import os
-    # os.remove(temp_filename)
-
-else:
-    print("No loudest section found in the audio.")
+        print("No loudest section found in the audio.")
 
 
 '''
