@@ -41,4 +41,4 @@ Beat Blender analyzes a given audio file to predict its genre and generates a co
 ### Technology Stack
 
 -   **Frontend**: React Native using Expo.
--   **Backend**: PyTorch, Hugginface, Trnasformers, and Flask using Python.
+-   **Backend**: PyTorch, Huggingface, Transformers, and Flask using Python.
