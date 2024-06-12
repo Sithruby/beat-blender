@@ -1,8 +1,11 @@
 # Filename - main.py
 
 # Import flask
+import base64
+from io import BytesIO
 from flask import Flask, jsonify, request
 from flask_cors import CORS
+from genreclassifier import predict_genre
 
 app = Flask(__name__)
 cors = CORS(app, origins='*')
@@ -13,12 +16,14 @@ def analyze():
     form_data = request.json
 
     # Process the form data
-    filepath = form_data.get('uri')
+    audio_base64 = form_data.get('uri')
+    audio_data=base64.b64decode(audio_base64)
+    audio_stream=BytesIO(audio_data)
 
-    # Print received form data
-    print('Received file URL:', filepath)
+    output=predict_genre(audio_stream)
+    
 
-    return jsonify({'message': 'File URL received', 'url': filepath})
+    return jsonify(output)
 
 if __name__ == "__main__":
     app.run(debug=True, port=812)
