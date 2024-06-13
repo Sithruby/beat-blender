@@ -9,7 +9,11 @@ import SignUp from './components/SignUp';
 import Login from './components/Login';
 import Home from './components/Home';
 import Navigation from './components/Navigation';
+import Genreclassify from './components/Genreclassify';
+import MusicPlayer from './components/MusicPlayer';
+
 const Stack = createNativeStackNavigator();
+
 export default function App() {
 	const [currentUser, setCurrentUser] = useState('');
 	useEffect(() => {
@@ -28,6 +32,7 @@ export default function App() {
 				{/* <Stack.Screen name='Home' options={{ HeaderShown: false }} component={Home} /> */}
 				<Stack.Screen name='Home' options={{ HeaderShown: false }} component={Home} currentUser={currentUser} />
 				<Stack.Screen name='Navigation' options={{ HeaderShown: false }} component={Navigation} />
+				<Stack.Screen name='Genre' options={{ HeaderShown: false }} component={Genreclassify} />
 			</Stack.Navigator>
 		</NavigationContainer>
 	);
