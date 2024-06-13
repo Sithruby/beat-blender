@@ -1,6 +1,3 @@
-# Filename - main.py
-
-# Import flask
 import base64
 from io import BytesIO
 from flask import Flask, jsonify, request
@@ -12,18 +9,20 @@ cors = CORS(app, origins='*')
 
 @app.route('/analyze', methods=['POST'])
 def analyze():
-    # Retrieve JSON data from the request
     form_data = request.json
-
-    # Process the form data
     audio_base64 = form_data.get('uri')
-    audio_data=base64.b64decode(audio_base64)
-    audio_stream=BytesIO(audio_data)
-
-    output=predict_genre(audio_stream)
     
+    if not audio_base64:
+        return jsonify({"error": "No audio data received"}), 400
+
+    audio_data = base64.b64decode(audio_base64)
+    audio_stream = BytesIO(audio_data)
+
+    output = predict_genre(audio_stream)
 
     return jsonify(output)
 
 if __name__ == "__main__":
     app.run(debug=True, port=812)
+
+
