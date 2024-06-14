@@ -20,7 +20,7 @@ export default function Login() {
 			alert('login success');
 			setEmail('');
 			setPassword('');
-			navigation.navigate('Home');
+			navigation.navigate('Navigation');
 		} catch (error) {
 			if (error.code === 'auth/invalid-credential') {
 				alert('Invalid email or password');
