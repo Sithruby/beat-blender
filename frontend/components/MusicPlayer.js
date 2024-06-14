@@ -6,6 +6,7 @@ export default function MusicPlayer({ audio_file }) {
 	const [sound, setSound] = useState();
 
 	async function playSound() {
+		console.log(audio_file);
 		console.log('Loading Sound');
 		const { sound } = await Audio.Sound.createAsync({ uri: audio_file });
 		setSound(sound);
@@ -33,7 +34,7 @@ export default function MusicPlayer({ audio_file }) {
 const styles = StyleSheet.create({
 	container: {
 		justifyContent: 'center',
-		backgroundColor: '#ecf0f1',
+		backgroundColor: 'transparent',
 		padding: 10,
 	},
 });
