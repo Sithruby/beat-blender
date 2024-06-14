@@ -1,5 +1,5 @@
 import 'react-native-gesture-handler';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, StatusBar } from 'react-native';
 import { auth } from './firebase.config';
 import React, { useEffect, useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
@@ -11,6 +11,7 @@ import Home from './components/Home';
 import Navigation from './components/Navigation';
 import Genreclassify from './components/Genreclassify';
 import MusicPlayer from './components/MusicPlayer';
+import Playlist from './components/Playlist';
 
 const Stack = createNativeStackNavigator();
 
@@ -25,7 +26,8 @@ export default function App() {
 	}, []);
 	return (
 		<NavigationContainer>
-			<Stack.Navigator initialRouteName='Navigation' screenOptions={{ headerShown: false }}>
+			<StatusBar barStyle={'light-content'} />
+			<Stack.Navigator initialRouteName='Login' screenOptions={{ headerShown: false }}>
 				<Stack.Screen name='WelcomeScreen' options={{ HeaderShown: false }} component={WelcomeScreen} />
 				<Stack.Screen name='Login' options={{ HeaderShown: false }} component={Login} />
 				<Stack.Screen name='SignUp' options={{ HeaderShown: false }} component={SignUp} />
@@ -33,6 +35,7 @@ export default function App() {
 				<Stack.Screen name='Home' options={{ HeaderShown: false }} component={Home} currentUser={currentUser} />
 				<Stack.Screen name='Navigation' options={{ HeaderShown: false }} component={Navigation} />
 				<Stack.Screen name='Genre' options={{ HeaderShown: false }} component={Genreclassify} />
+				<Stack.Screen name='Playlist' options={{ headerShown: false }} component={Playlist} />
 			</Stack.Navigator>
 		</NavigationContainer>
 	);
