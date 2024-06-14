@@ -4,13 +4,16 @@ import { auth, db } from '../firebase.config';
 import { collection, getDocs, query, where } from 'firebase/firestore';
 import { signOut } from 'firebase/auth';
 import { useNavigation } from '@react-navigation/native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { useFonts } from 'expo-font';
+//import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 export default function Home() {
-	const Tab = createBottomTabNavigator();
 	const navigation = useNavigation();
 	const [name, setName] = useState('');
 
+	const [fontsLoaded, fontError] = useFonts({
+		'Inter-SemiBold': require('../assets/Inter-SemiBold.ttf'),
+	});
 	useEffect(() => {
 		const fetchUserName = async () => {
 			try {
@@ -79,7 +82,7 @@ const styles = StyleSheet.create({
 	},
 	textH: {
 		color: 'rgb(240, 237, 242)',
-		fontFamily: 'Inter-Black',
+		fontFamily: 'Inter-SemiBold',
 		fontWeight: 'bold',
 		fontSize: 20,
 		textAlign: 'center',
@@ -87,7 +90,7 @@ const styles = StyleSheet.create({
 	},
 	text: {
 		color: 'rgb(240, 237, 242)',
-		fontFamily: 'Inter-Black',
+		fontFamily: 'Inter-SemiBold',
 		fontSize: 20,
 
 		padding: 10,
