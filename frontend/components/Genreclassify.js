@@ -9,15 +9,21 @@ import { Platform } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useFonts } from 'expo-font';
 import MusicPlayer from './MusicPlayer';
-
-import Login from './Login';
+import { addDoc, doc, setDoc, collection } from 'firebase/firestore';
+import { db, auth } from '../firebase.config';
+import Navigation from './Navigation';
 
 export default function Genreclassify() {
+	const Navigation = useNavigation();
+	useEffect(() => {
+		setCurrentUser(auth.currentUser.uid);
+	});
 	const Tab = createBottomTabNavigator();
 
 	const [fontsLoaded, fontError] = useFonts({
 		'Inter-SemiBold': require('../assets/Inter-SemiBold.ttf'),
 	});
+	const [currentUser, setCurrentUser] = useState('');
 	const [audio_file, setAudioFile] = useState('');
 	const [Songname, setSongName] = useState('');
 	const [chartdata, setChartdata] = useState(null);
@@ -27,7 +33,7 @@ export default function Genreclassify() {
 		try {
 			const docRes = await DocumentPicker.getDocumentAsync({
 				type: 'audio/*',
-				copyToCacheDirectory: true,
+				copyToCacheDirectory: false,
 			});
 
 			if (docRes.type === 'cancel') {
@@ -51,7 +57,8 @@ export default function Genreclassify() {
 			} else if (Platform.OS === 'android' || Platform.OS === 'ios') {
 				fileInfo = await FileSystem.readAsStringAsync(fileUri, { encoding: FileSystem.EncodingType.Base64 });
 				ip = 'http://10.0.2.2:812/analyze';
-				setAudioFile(fileInfo);
+				setAudioFile(file.assets[0].uri);
+				console.log('genre ' + file.assets[0].uri);
 			}
 
 			//console.log('File info:', fileInfo);
@@ -109,6 +116,18 @@ export default function Genreclassify() {
 		strokeWidth: 2,
 		barPercentage: 0.5,
 	};
+	const addtoPlaylist = async (genre, audio_file, Songname) => {
+		try {
+			console.log(genre);
+			await addDoc(collection(db, 'playlists', currentUser, genre), {
+				audio_file,
+				Songname,
+			});
+			//Navigation.navigate('Playlist');
+		} catch (error) {
+			console.log(error);
+		}
+	};
 
 	if (!fontsLoaded && !fontError) {
 		return null;
@@ -131,6 +150,11 @@ export default function Genreclassify() {
 			{chartdata && <PieChart data={chartdata} accessor='score' width={Dimensions.get('window').width} height={220} strokeWidth={16} radius={32} chartConfig={chartConfig} hideLegend={false} />}
 			<View>
 				<Text style={styles.genreText}> {genre}</Text>
+			</View>
+			<View>
+				<Pressable style={styles.button} onPress={() => addtoPlaylist(genre, audio_file, Songname)}>
+					<Text>Add to playlist</Text>
+				</Pressable>
 			</View>
 		</SafeAreaView>
 	);
@@ -176,7 +200,7 @@ const styles = StyleSheet.create({
 	},
 	genreText: {
 		color: 'rgb(240, 237, 242)',
-		fontFamily: 'inter-semiBold',
+		fontFamily: 'Inter-SemiBold',
 		fontWeight: 'bold',
 		fontSize: 20,
 		textAlign: 'center',
@@ -187,7 +211,7 @@ const styles = StyleSheet.create({
 	},
 	text: {
 		color: 'rgb(240, 237, 242)',
-		fontFamily: 'inter-semiBold',
+		fontFamily: 'Inter-SemiBold',
 		fontSize: 20,
 
 		padding: 10,
