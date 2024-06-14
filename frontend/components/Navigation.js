@@ -1,18 +1,25 @@
 import * as React from 'react';
-import { Button, View } from 'react-native';
+import { Button, View, Alert } from 'react-native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { useNavigation } from '@react-navigation/native';
 import Home from './Home';
 import Genreclassify from './Genreclassify';
+import Playlist from './Playlist';
+//import Login from './Login';
 import 'react-native-gesture-handler';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
-function NotificationsScreen({ navigation }) {
-	return (
-		<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-			<Button onPress={() => navigation.goBack()} title='Go back home' />
-		</View>
-	);
+function NotificationsScreen() {
+	const navigation = useNavigation();
+	Alert.alert('Alert Title', 'Do you want to SignOut', [
+		{
+			text: 'Cancel',
+			onPress: () => navigation.navigate('Home'),
+			style: 'cancel',
+		},
+		{ text: 'SignOut', onPress: () => navigation.navigate('Login') },
+	]);
 }
 const Tab = createBottomTabNavigator();
 function TabScreen() {
@@ -20,6 +27,7 @@ function TabScreen() {
 		<Tab.Navigator>
 			<Tab.Screen name='home' component={Home} options={{ headerShown: false }} />
 			<Tab.Screen name='classify' component={Genreclassify} />
+			<Tab.Screen name='Play' component={Playlist} />
 		</Tab.Navigator>
 	);
 }
@@ -32,7 +40,6 @@ export default function Navigation() {
 			<Drawer.Navigator initialRouteName='Home'>
 				<Drawer.Screen name='Home' component={TabScreen} />
 				<Drawer.Screen name='SignOut' component={NotificationsScreen} />
-				<Drawer.Screen name='Classify' component={Genreclassify} />
 			</Drawer.Navigator>
 		</GestureHandlerRootView>
 	);
