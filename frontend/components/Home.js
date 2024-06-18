@@ -10,9 +10,9 @@ import { useFonts } from 'expo-font';
 export default function Home() {
 	const navigation = useNavigation();
 	const [name, setName] = useState('');
-
 	const [fontsLoaded, fontError] = useFonts({
 		'Inter-SemiBold': require('../assets/Inter-SemiBold.ttf'),
+		'Inter-Regular': require('../assets/Inter-Regular.ttf'),
 	});
 	useEffect(() => {
 		const fetchUserName = async () => {
@@ -41,14 +41,20 @@ export default function Home() {
 		await signOut(auth);
 		navigation.navigate('Login');
 	};
-
+	if (!fontsLoaded && !fontError) {
+		return null;
+	}
 	return (
 		<SafeAreaView style={styles.container1}>
 			<View>
-				<Text style={styles.text}>Hello, {name}</Text>
-
+				<Text style={styles.textH}>Hello, {name}</Text>
+			</View>
+			<View>
+				<Text style={styles.text}>Beat Blender analyzes a given audio file to predict its genre and generates a corresponding playlist.</Text>
+			</View>
+			<View>
 				<Pressable onPress={handleLogOut}>
-					<Text style={styles.text}>Sign Out</Text>
+					<Text style={styles.textH}>Sign Out</Text>
 				</Pressable>
 			</View>
 		</SafeAreaView>
@@ -60,20 +66,6 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		justifyContent: 'center',
 	},
-	button: {
-		backgroundColor: 'rgba(123, 31, 162,0.7)',
-		padding: 10,
-		borderRadius: 5,
-		borderColor: 'rgb(0,0,0)',
-		borderWidth: 1,
-		paddingHorizontal: 30,
-	},
-	buttonText: {
-		fontFamily: 'Inter-Black',
-		color: '#fff',
-		fontSize: 15,
-		fontWeight: 'bold',
-	},
 
 	container1: {
 		flex: 1,
@@ -83,16 +75,17 @@ const styles = StyleSheet.create({
 	textH: {
 		color: 'rgb(240, 237, 242)',
 		fontFamily: 'Inter-SemiBold',
-		fontWeight: 'bold',
+
 		fontSize: 20,
-		textAlign: 'center',
+
 		padding: 10,
 	},
 	text: {
 		color: 'rgb(240, 237, 242)',
 		fontFamily: 'Inter-SemiBold',
-		fontSize: 20,
-
+		fontSize: 15,
 		padding: 10,
+
+		bottom: 10,
 	},
 });
