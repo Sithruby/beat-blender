@@ -6,13 +6,20 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { auth } from '../firebase.config';
 import { useNavigation } from '@react-navigation/native';
 import { signInWithEmailAndPassword } from 'firebase/auth';
+import { useFonts } from 'expo-font';
 const logoImg = require('../assets/4.png');
 
 export default function Login() {
 	const navigation = useNavigation();
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
-
+	const [fontsLoaded, fontError] = useFonts({
+		'Inter-SemiBold': require('../assets/Inter-SemiBold.ttf'),
+		'Inter-Regular': require('../assets/Inter-Regular.ttf'),
+	});
+	if (!fontsLoaded && !fontError) {
+		return null;
+	}
 	loginUser = async (email, password) => {
 		try {
 			await signInWithEmailAndPassword(auth, email, password);
@@ -91,7 +98,7 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 30,
 	},
 	buttonText: {
-		fontFamily: 'Cochin',
+		fontFamily: 'Inter-Regular',
 		color: '#fff',
 	},
 	text: {

@@ -1,11 +1,20 @@
 import { View, Text, Image, Pressable, StyleSheet } from 'react-native';
 import React from 'react';
+import { useFonts } from 'expo-font';
 import { LinearGradient } from 'expo-linear-gradient';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 const logoImg = require('../assets/music.jpg');
+
 export default function WelcomeScreen() {
 	const navigation = useNavigation();
+	const [fontsLoaded, fontError] = useFonts({
+		'Inter-SemiBold': require('../assets/Inter-SemiBold.ttf'),
+		'Inter-Regular': require('../assets/Inter-Regular.ttf'),
+	});
+	if (!fontsLoaded && !fontError) {
+		return null;
+	}
 	return (
 		<SafeAreaView style={styles.container}>
 			<LinearGradient colors={['rgb(165,55,253)', 'transparent']} style={styles.background} />
@@ -44,9 +53,9 @@ const styles = StyleSheet.create({
 		margin: '20px',
 	},
 	text1: {
-		fontFamily: 'cursive',
+		fontFamily: 'Inter-SemiBold',
 		color: '#fff',
-		fontWeight: 'bold',
+
 		fontSize: 27,
 	},
 
@@ -61,7 +70,7 @@ const styles = StyleSheet.create({
 		borderColor: 'rgb(0,0,0)',
 	},
 	buttonText: {
-		fontFamily: 'Cochin',
+		fontFamily: 'Inter-Regular',
 		color: '#fff',
 	},
 	logo: {

@@ -8,7 +8,7 @@ import { auth } from '../firebase.config';
 import { db } from '../firebase.config';
 import { collection, addDoc } from 'firebase/firestore';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
-
+import { useFonts } from 'expo-font';
 const logoImg = require('../assets/4.png');
 
 export default function SignUp({ props }) {
@@ -34,6 +34,7 @@ export default function SignUp({ props }) {
 			setNameVerify(false);
 			setEmailVerify(false);
 			setPwVerify(false);
+			//naviagating to login page after creating account
 			navigation.navigate('Login');
 		} catch (error) {
 			alert(error.message);
@@ -69,6 +70,13 @@ export default function SignUp({ props }) {
 		setUsername(text);
 		handleName(text);
 	};
+	const [fontsLoaded, fontError] = useFonts({
+		'Inter-SemiBold': require('../assets/Inter-SemiBold.ttf'),
+		'Inter-Regular': require('../assets/Inter-Regular.ttf'),
+	});
+	if (!fontsLoaded && !fontError) {
+		return null;
+	}
 
 	return (
 		<SafeAreaView style={styles.container}>
@@ -190,7 +198,7 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 30,
 	},
 	buttonText: {
-		fontFamily: 'Cochin',
+		fontFamily: 'Inter-Regular',
 		color: '#fff',
 	},
 	text: {
