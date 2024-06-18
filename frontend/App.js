@@ -10,7 +10,7 @@ import Login from './components/Login';
 import Home from './components/Home';
 import Navigation from './components/Navigation';
 import Genreclassify from './components/Genreclassify';
-import MusicPlayer from './components/MusicPlayer';
+import RenderSong from './components/RenderSong';
 import Playlist from './components/Playlist';
 
 const Stack = createNativeStackNavigator();
@@ -27,15 +27,15 @@ export default function App() {
 	return (
 		<NavigationContainer>
 			<StatusBar barStyle={'light-content'} />
-			<Stack.Navigator initialRouteName='Login' screenOptions={{ headerShown: false }}>
+			<Stack.Navigator initialRouteName='WelcomeScreen' screenOptions={{ headerShown: false }}>
 				<Stack.Screen name='WelcomeScreen' options={{ HeaderShown: false }} component={WelcomeScreen} />
 				<Stack.Screen name='Login' options={{ HeaderShown: false }} component={Login} />
 				<Stack.Screen name='SignUp' options={{ HeaderShown: false }} component={SignUp} />
 				{/* <Stack.Screen name='Home' options={{ HeaderShown: false }} component={Home} /> */}
-				<Stack.Screen name='Home' options={{ HeaderShown: false }} component={Home} currentUser={currentUser} />
 				<Stack.Screen name='Navigation' options={{ HeaderShown: false }} component={Navigation} />
+				{/* <Stack.Screen name='Home' options={{ HeaderShown: false }} component={Home} currentUser={currentUser} />
 				<Stack.Screen name='Genre' options={{ HeaderShown: false }} component={Genreclassify} />
-				<Stack.Screen name='Playlist' options={{ headerShown: false }} component={Playlist} />
+				<Stack.Screen name='Playlist' options={{ headerShown: false }} component={Playlist} /> */}
 			</Stack.Navigator>
 		</NavigationContainer>
 	);
