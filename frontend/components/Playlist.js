@@ -1,11 +1,23 @@
 import React, { useState, useEffect } from 'react';
-import { Text, View, TouchableOpacity, StyleSheet } from 'react-native';
+import { Text, View, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import { getDocs, collection } from 'firebase/firestore';
 import { db, auth } from '../firebase.config';
 import RenderSong from './RenderSong';
 
 export default function Playlist() {
-	const genres = ['blues', 'classical', 'country', 'disco', 'hiphop', 'jazz', 'metal', 'pop', 'reggae', 'rock'];
+	const genres = [
+		{ name: 'blues', image: require('../assets/blues.jpg') },
+		{ name: 'classical', image: require('../assets/classical.jpg') },
+		{ name: 'country', image: require('../assets/country.jpeg') },
+		{ name: 'disco', image: require('../assets/disco.png') },
+		{ name: 'hiphop', image: require('../assets/hiphop.png') },
+		{ name: 'jazz', image: require('../assets/jazz.png') },
+		{ name: 'metal', image: require('../assets/metal.png') },
+		{ name: 'pop', image: require('../assets/pop.png') },
+		{ name: 'reggae', image: require('../assets/reggae.png') },
+		{ name: 'rock', image: require('../assets/rock.png') },
+	];
+
 	const [songs, setSongs] = useState({});
 	const [currentUser, setCurrentUser] = useState('');
 	const [selectedGenre, setSelectedGenre] = useState(null);
@@ -21,12 +33,12 @@ export default function Playlist() {
 			try {
 				const songsByGenre = {};
 				for (const genre of genres) {
-					const querySnapshot = await getDocs(collection(db, 'playlists', currentUser, genre));
+					const querySnapshot = await getDocs(collection(db, 'playlists', currentUser, genre.name));
 					const genreSongs = [];
 					querySnapshot.forEach((doc) => {
 						genreSongs.push(doc.data());
 					});
-					songsByGenre[genre] = genreSongs;
+					songsByGenre[genre.name] = genreSongs;
 				}
 				setSongs(songsByGenre);
 			} catch (error) {
@@ -41,11 +53,11 @@ export default function Playlist() {
 
 	return (
 		<View style={styles.container}>
-			<Text style={styles.header}>Playlists:</Text>
 			<View style={styles.genresContainer}>
 				{genres.map((genre) => (
-					<TouchableOpacity key={genre} style={styles.genreBox} onPress={() => setSelectedGenre(genre)}>
-						<Text style={styles.genreText}>{genre}</Text>
+					<TouchableOpacity key={genre.name} style={[styles.genreBox, selectedGenre === genre.name && styles.selectedGenreBox]} onPress={() => setSelectedGenre(genre.name)}>
+						<Image source={genre.image} style={styles.genreImage} />
+						<Text style={styles.genreText}>{genre.name}</Text>
 					</TouchableOpacity>
 				))}
 			</View>
@@ -77,12 +89,20 @@ const styles = StyleSheet.create({
 		justifyContent: 'space-between',
 	},
 	genreBox: {
-		width: '40%',
+		width: '30%',
 		padding: 10,
 		marginBottom: 10,
 		backgroundColor: '#e0e0e0',
 		borderRadius: 5,
 		alignItems: 'center',
+	},
+	selectedGenreBox: {
+		backgroundColor: '#BF05F2',
+	},
+	genreImage: {
+		width: 50,
+		height: 50,
+		marginBottom: 5,
 	},
 	genreText: {
 		fontSize: 18,
