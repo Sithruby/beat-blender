@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, SafeAreaView, Pressable, StyleSheet, Alert, Dimensions } from 'react-native';
 import axios from 'axios';
 import * as DocumentPicker from 'expo-document-picker';
-import { useNavigation } from '@react-navigation/native';
+//import { useNavigation } from '@react-navigation/native';
 import { PieChart } from 'react-native-chart-kit';
 import * as FileSystem from 'expo-file-system';
 import { Platform } from 'react-native';
@@ -11,10 +11,8 @@ import { useFonts } from 'expo-font';
 import MusicPlayer from './MusicPlayer';
 import { addDoc, doc, setDoc, collection } from 'firebase/firestore';
 import { db, auth } from '../firebase.config';
-import Navigation from './Navigation';
 
 export default function Genreclassify() {
-	const Navigation = useNavigation();
 	useEffect(() => {
 		setCurrentUser(auth.currentUser.uid);
 	});
@@ -116,6 +114,7 @@ export default function Genreclassify() {
 		strokeWidth: 2,
 		barPercentage: 0.5,
 	};
+	// for adding song based on genre to firebase
 	const addtoPlaylist = async (genre, audio_file, Songname) => {
 		try {
 			console.log(genre);
@@ -123,6 +122,7 @@ export default function Genreclassify() {
 				audio_file,
 				Songname,
 			});
+			Alert.alert('Added to playlist');
 			//Navigation.navigate('Playlist');
 		} catch (error) {
 			console.log(error);
@@ -140,20 +140,21 @@ export default function Genreclassify() {
 					<Text style={styles.buttonText}>Insert File</Text>
 				</Pressable>
 			</View>
+
 			<View>
 				<MusicPlayer audio_file={audio_file} />
 			</View>
-
 			<View>
 				<Text style={styles.textH}> {Songname}</Text>
 			</View>
+
 			{chartdata && <PieChart data={chartdata} accessor='score' width={Dimensions.get('window').width} height={220} strokeWidth={16} radius={32} chartConfig={chartConfig} hideLegend={false} />}
 			<View>
 				<Text style={styles.genreText}> {genre}</Text>
 			</View>
 			<View>
 				<Pressable style={styles.button} onPress={() => addtoPlaylist(genre, audio_file, Songname)}>
-					<Text>Add to playlist</Text>
+					<Text style={styles.buttonText}>Add to playlist</Text>
 				</Pressable>
 			</View>
 		</SafeAreaView>
@@ -167,7 +168,7 @@ const styles = StyleSheet.create({
 		marginBottom: 10,
 	},
 	button: {
-		backgroundColor: 'rgba(123, 31, 162,0.7)',
+		backgroundColor: '#BF05F2',
 		padding: 10,
 		borderRadius: 5,
 		borderColor: 'rgb(0,0,0)',
