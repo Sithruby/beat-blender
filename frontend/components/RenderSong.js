@@ -30,15 +30,20 @@ export default function RenderSong({ Songname, audioFile }) {
 	}
 
 	return (
-		<View style={{ backgroundColor: 'tomato', marginVertical: 4 }}>
+		<View style={{ marginVertical: 4 }}>
 			<Pressable onPress={playMusic}>
 				<Text>Play</Text>
 			</Pressable>
-			<Pressable onPress={stopMusic}>
+			{/* <Pressable onPress={stopMusic}>
 				<Text>pause</Text>
-			</Pressable>
+			</Pressable> */}
 
-			<Text>{Songname}</Text>
+			<Text
+				style={{
+					color: '#fff',
+				}}>
+				{Songname}
+			</Text>
 		</View>
 	);
 }
